@@ -17,5 +17,13 @@ router.route("/register").post(
         }
     ]),
     registerUser)
+// router.post("/register",
+//   upload.any(),
+//   (req, res) => {
+//     console.log("req.body:", req.body);
+//     console.log("req.files:", req.files);
+//     return res.status(200).json({ ok: true });
+//   }
+// )
 
 export default router
