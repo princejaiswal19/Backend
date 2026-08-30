@@ -10,14 +10,17 @@ import fs from "fs"
 
  const uploadOnCloudinary = async (localFilePath) => {
     try {
-        const result = await cloudinary.uploader.upload(localFilePath, {
-            folder: "uploads",
-        });
-        fs.unlinkSync(localFilePath); // Delete the local file after upload
-        return result.secure_url; // Return the URL of the uploaded image
+         if (!localFilePath) {
+            throw new Error("Local file path is required");
+        }
+        const response = await cloudinary.uploader.upload(localFilePath,{resource_type:"auto"})
+        console.log("file is uploaded on cloudinary");
+        return response; // Return the URL of the uploaded file
     } catch (error) {
-        console.error("Error uploading to Cloudinary:", error);
-        throw error;
+        fs.unlinkSync(localFilePath); // Delete the local file in case of an error
+        console.error("Error uploading file to Cloudinary:", error);
+        throw error; // Rethrow the error to be handled by the caller
     }           
  }
+ export {uploadOnCloudinary}
 
